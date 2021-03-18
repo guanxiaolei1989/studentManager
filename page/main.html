@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../layui/css/layui.mobile.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" media="all" />
+
+    <style type="text/css">
+        body {
+            font-size: 12px;
+        }
+        
+        table {
+            table-layout: fixed
+        }
+        
+        table td {
+            width: 150px;
+        }
+        
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle!important;
+        }
+        
+        .operate {
+            /*margin: 0px 2px;*/
+        }
+        
+        .dropdown-menu {
+            /*min-width: 50px;*/
+        }
+        
+        table td {
+            word-break: keep-all;
+            white-space: nowrap
+        }
+        
+        .vertal {
+            line-height: 50px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .vertal input {
+            vertical-align: bottom;
+            height: 24px;
+        }
+        
+        .vertal select {
+            vertical-align: bottom;
+            height: 35px;
+        }
+        
+        .one {
+            display: none;
+        }
+        
+        .two {
+            display: none;
+        }
+        
+        .three {
+            display: none;
+        }
+        
+        .amjl {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="vertal">
+        <small class="amjl">身份证号码 ：</small><input id="searchCardid" type="text" placeholder="请填写" value="" style="width: 200px">
+        <small class="amjl">学生姓名：</small><input id="searchName" type="text" placeholder="请填写" value="" style="width: 50px">
+        <small class="amjl">院校：</small><input id="searchSchool" type="text" placeholder="请输入院校名称" value="" style="width: 120px">
+        <small class="amjl">缴费状态：</small>
+        <select id="ispayL" style="width: 80px">
+				  		<option value="">全部</option>
+				  		<option value="0">待缴费</option>
+				  		<option value="1">已缴费</option>
+				  </select>
+        <small class="amjl">报名状态：</small>
+        <select id="isApply" style="width: 80px">
+				  		<option value="">全部</option>
+				  		<option value="0">待报名</option>
+				  		<option value="1">已报名</option>
+				  </select>
+        <script type="text/javascript">
+            if (window.sessionStorage["scale"] == 1) {
+                document.write(`<small class="amjl"	>老师姓名：</small><input id="searchTeacher" type="text" placeholder="请填写" value="" style="width: 42px">　`);
+            }
+        </script>
+        <button onclick="search();" class="btn btn-primary ">搜索</button>
+        <button onclick="addstudentInfo();" class="btn btn-primary " data-toggle="modal" href="#mymodal-link" id="href-btn">添加</button>
+    </div>
+    <div class="table-responsive">
+        <table id="students" class="table table-bordered table-striped text-centerk text-center table table-hover table-condensed"></table>
+    </div>
+
+    <p id="studentsGon"></p>
+    <!-- 模态弹出窗内容 -->
+    <div style="display: none;" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="mymodal-link">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+                    <h4 class="modal-title">学生信息123</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h6>
+                        姓　名　　：<input type="text" name="name" placeholder="姓名" value=""><br> 　　手　机　　：
+                        <input type="text" name="phone" placeholder="手机号码" value=""><br> 　身份证号码　：
+                        <input type="text" name="cardid" placeholder="身份证号码" value=""><br> 　　邮　箱　　：
+                        <input type="text" name="mail" placeholder="邮箱" value=""><br> 　紧急联系人　：
+                        <input type="text" name="sosperson" placeholder="紧急联系人姓名" value=""><br> 紧急联系人手机：
+                        <input type="text" name="sosphone" placeholder="紧急联系人手机" value=""><br>
+                        <!-- <form>students
+	                 　　院　校　　：
+	                 <select id="school" name="province" onChange="set_city(this, this.form.city);">
+					    <option value="0">选择院校</option>
+					    <option value="牡丹江师范学院">牡丹江师范学院</option>
+					    <option value="温春农校">温春农校</option>
+					    <option value="牡丹江商业技术职业学院">牡丹江商业技术职业学院</option>
+					 </select><br>
+					 　　专　业　　：
+					 <select id="major" name="city" id="citys">
+					    	<option value="0">选择专业</option>
+				     	</select><br>
+				     </form> -->
+                        院　校　　：<input type="text" name="school" placeholder="报考院校" value=""><br> 　　专　业　　：
+                        <input type="text" name="major" placeholder="报考专业" value=""><br> 　学 历 类 别　：
+                        <select id="educationType">
+					   	  <option value="0" >请选择学历</option>
+					      <option value="1" >全日制大专</option>
+					      <option value="2">成人教育</option>
+					      <option value="3">自学考试</option>
+					      <option value="4">计算机</option>
+					      <option value="5">远程教育</option>
+						  <option value="6">资格证书</option>
+					    </select>
+                        <!--  <select name="educationType" id="educationType">
+	                         	 <option value ="3">三级管理员</option>
+	                         	 <option value ="2">二级管理员</option>
+	                         	 <option value ="1">一级管理员</option>
+	                      </select>--><br> 　 缴 费 金 额　：<input type="number" name="money" placeholder="缴费金额" value="0"><br> 欠 费 金 额　：<input type="number" name="oweafee" placeholder="欠费金额" value="100"><br> 　　备　注　　：
+                        <input type="text" name="remarks" placeholder="备注" value=""></br>　报 名 老 师　：<select disabled="true" id="tname" name="tname">
+							<option value="0" >你好</option>
+					   </select>
+                        <input style="display: none;" type="text" name="addorupdate" value="">
+                        <input style="display: none;" type="text" name="id" value=""></h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button id="save" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../layui/layui.all.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/public.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+
+
+
+
+</html>

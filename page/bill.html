@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>发票</title>
+	<link rel="stylesheet" href="../css/bootstrap.css" media="all" />
+	<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+	<style type="text/css">
+		.isShow{
+			display:none;
+		}
+		table tr{
+			line-height:40px;
+		}
+	</style>
+</head>
+
+<body>
+<button class="btn btn-info" onclick="printBill(this);">打印</button>
+<div class="center-block">
+	<table id="bill" class="container" style="width:650px;" border="1">
+
+
+	</table>
+</div>
+</body>
+<script type="text/javascript">
+
+
+	  var html = `
+	  <tr>
+		  <td>　个人：（`+window.sessionStorage.getItem("name")+`）</td>
+	  </tr>
+	  <tr>
+	     <td>　金额：`+window.sessionStorage.getItem("money")+`（`+window.sessionStorage.getItem("educationType")+`）</td>
+	   </tr>
+	   <tr>
+		   <td>
+		   　　本校的收据以打印为主，其他形式票据无效，1　学历教育类：如因学校原因导致报名不成功，退取全额学费。个人恶意不配合或个人资料虚假不退费。
+		   </td>
+	   </tr>
+	   <tr>
+	      <td>　负责人：　　　　　　经办人：　　　　　　报名老师：　　　　　<br>　　　　（徐业辉）　　　　　　　　　　　　　　　　　`+window.sessionStorage.getItem("tname")+`　　　　学校名称：北京博烨教育集团</td>
+	    </tr>`;
+	$("#bill").html(html);
+
+	//打印
+	function printBill(event){
+		$(event).attr("class","isShow");
+		window.print();
+		window.sessionStorage.removeItem('name');
+		window.sessionStorage.removeItem('tname');
+		window.sessionStorage.removeItem('educationType');
+		window.sessionStorage.removeItem('money');
+	}
+
+
+
+
+</script>
+</html>

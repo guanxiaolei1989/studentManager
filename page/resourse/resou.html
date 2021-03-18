@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Layui</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../../layui/css/layui.mobile.css" />
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/bootstrap.css" media="all" />
+	</head>
+	<style>
+
+	</style>
+
+	<body>
+		<blockquote class="layui-elem-quote layui-text">
+			公司资源都具有员工保密协议签署，不允许公司员工将公司资源对接外界或转卖
+		</blockquote>
+		<div class="demoTable">
+
+			<!--<button type="button" class="layui-btn layui-btn-normal" data-toggle='modal' href='#mymodal-link'>添加项目</button> 搜索ID：
+			<div class="layui-inline">
+				<input class="layui-input"  id="demoReload" autocomplete="off">
+			</div>-->
+			搜索企业：
+			<div class="layui-inline">
+				<input class="layui-input" id="companyName" autocomplete="off">
+			</div>
+			<button class="layui-btn" data-type="reload" id="selectbyCondition">搜索</button>
+			<button type="button" class="layui-btn layui-btn-normal" data-toggle='modal' href='#mymodal-link' onclick="addCos()">添加公司</button>
+		</div>
+		<div style="display: none;top: 100px;" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="mymodal-link">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+						<h4 class="modal-title">公司信息</h4>
+					</div>
+					<div class="modal-body text-center">
+						<h6>
+	                 　　名　称　　：<input type="text" name="companyName" required placeholder="名称" value=""><br>
+	                 　联系人姓名　：<input type="text" name="contacts"  required placeholder="联系人姓名" value=""><br>
+	                 　联系人号码　：<input type="text" name="contactsIphone" required placeholder="联系人号码" value=""><br>
+			  　　身　份　　：
+			           <select id="shenfenType" name="shenfenType" style="height: 38px">
+					   	  <option  value="0">请选择身份</option >
+					      <option  value="1">教育机构</option >
+					      <option  value="2">中专学校</option >
+					      <option  value="3">大专学校</option >
+					   </select><br>
+
+	                 　　备　注　　：<input type="text" name="remarks" placeholder="备注" value="" required>
+
+	                 	<input style="display: none;" type="text" name="addorupdate" value="">
+	                 	<input style="display: none;" type="text" name="id" value=""></h6>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button id="save" type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveCorporation()">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="layui-hide" id="test" lay-filter="test" lay-data="{id: 'idTest'}"></table>
+
+		<script type="text/javascript" src="../../js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="../../layui/layui.all.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap.js"></script>
+		<script type="text/javascript" src="../../js/public.js"></script>
+		<script type="text/javascript" src="resourse.js"></script>
+		<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="edit" data-toggle='modal' href='#mymodal-link'>编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+				/*初始化页面*/
+				var tableIns = table.render({
+						elem: '#test',
+						url: bulicUrl + "resourse/selectreSource.php?resource=resource",
+						toolbar: true,
+						title: '资源表',
+						totalRow: true,
+						cellMinWidth: 80,
+						cols: [
+							[
+								/*{"Id":"1","companyName":"123","contactsIphone":"","contacts":"","remarks":""}*/
+								{
+									field: 'Id',
+									title: 'Id',
+									width: 50,
+									fixed: 'left'
+									/*unresize: true,
+									sort: true,
+									totalRowText: '合计行',
+									totalRow: true,
+									edit: 'text'
+									totalRow: true introduce,*/
+
+								}, {
+									field: 'companyName',
+									title: '公司名称',
+									width: 200,
+
+								}, {
+									field: 'contacts',
+									title: '联系人',
+									width: 100,
+
+								}, {
+									field: 'contactsIphone',
+									title: '联系人电话',
+									width: 150,
+									/*sort: true,*/
+									/*totalRow: true introduce*/
+								}, {
+									field: 'shenfenType',
+									title: '身份',
+									width: 150,
+									templet: function(d) {
+										if(d.shenfenType == "1"){
+											return '<span style="color: #c00;">' + '教育机构' + '</span>';}
+										else if(d.shenfenType == "2"){
+											return '<span style="color: #c00;">' + '中专学校' + '</span>';
+										}
+										else if(d.shenfenType == "3")
+										{
+										   return '<span style="color: #c00;">' + '大专学校' + '</span>';
+										}
+										else 
+										{
+										   return '<span style="color: #c00;">' + '其他' + '</span>';
+										}
+								}
+
+							}
+
+							/* map5.set("1","教育机构");
+						map5.set("2","中专学校");
+						map5.set("3","大专学校");*/
+							/*sort: true,*/
+							/*totalRow: true introduce*/
+						,
+						{
+							field: 'remarks',
+							title: '备注'
+
+							/*sort: true*/
+						},
+						{
+							fixed: 'right',
+							title: '操作',
+							toolbar: '#barDemo',
+							width: 150
+						}
+					]],
+					page: false,
+					id: 'userTableReload',
+					response: {
+						statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+					},
+					parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+						return {
+							"code": res.code, //解析接口状态
+							"msg": res.msg, //解析提示文本
+							"count": res.total, //解析数据长度
+							"data": res.data //解析数据列表
+						};
+					},
+					height: 612
+			});
+			/*重新加载*/
+			var $ = layui.$,
+				active = {
+					reload: function() {
+						//执行重载
+						var companyName = $("#companyName").val();
+						table.reload("userTableReload", {
+							where: {
+								companyName: companyName
+							}
+						}, 'data');
+					}
+				};
+			$('.demoTable .layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			//监听行工具事件
+			table.on('tool(test)', function(obj) {
+			var data = obj.data;
+			console.log(data)
+			if(obj.event === 'del') {
+				layer.confirm('真的删除行么', function(index) {
+					/*obj.del();*/
+					deleteTbel(data.Id);
+					layer.close(index);
+				});
+				/*编辑*/
+			} else if(obj.event === 'edit') {
+				setDatal(data);
+				setVal("addorupdate", 1); //0添加/1修改
+			}
+			});
+
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工工资</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../layui/css/layui.css" />
+    <script type="text/javascript" src="../../js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="../../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../../js/public.js"></script>
+    <script type="text/javascript" src="../../js/salaryList.js"></script>
+    <style>
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle!important;
+        }
+        .nki{
+        	width: 80px;
+        	margin-top: 10px;
+        }
+        .textSara{
+        	width: 150px;
+        	height: 30px;
+        	margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+       <blockquote class="layui-elem-quote layui-text">
+	  		工资结算表
+	   </blockquote>
+     
+
+    <table id="salaryList" class="table table-bordered table-striped text-centerk text-center table table-hover table-condensed "></table>
+    <h6>
+              底薪共发放<small id="gdx">0</small>元  
+    </h6>
+    <h6>
+              提成共发放<small id="deduct">0</small>元  
+    </h6>
+</body>
+
+</html>

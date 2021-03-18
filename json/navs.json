@@ -1,0 +1,47 @@
+{
+	"contentManagement": [{
+			"title": "学历分类",
+			"icon": "&#xe716;",
+			"href": "",
+			"spread": true,
+			"children": [{
+				"title": "成人教育",
+				"icon": "",
+				"href": "page/chengren.html",
+				"spread": false
+			},{
+				"title": "全日制大专",
+				"icon": "",
+				"href": "page/quanrizhi.html",
+				"spread": false
+			},{
+				"title": "计算机",
+				"icon": "",
+				"href": "page/jisuanji.html",
+				"spread": false
+			},{
+				"title": "远程教育",
+				"icon": "",
+				"href": "page/yuancheng.html",
+				"spread": false
+			}]
+		},{
+			"title": "用户管理",
+			"icon": "&#xe716;",
+			"href": "",
+			"spread": true,
+			"children": [{
+				"title": "添加用户",
+				"icon": "",
+				"href": "page/user/userAdd.html",
+				"spread": false
+			},{
+				"title": "用户详情",
+				"icon": "",
+				"href": "page/user/userList.html",
+				"spread": false
+			}]
+		}
+	]
+
+}

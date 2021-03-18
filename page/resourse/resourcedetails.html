@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>项目详情</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../../layui/css/layui.mobile.css" />
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/bootstrap.css" media="all" />
+
+	</head>
+	<style>
+		.scale3 {
+			display: none;
+		}
+	</style>
+
+	<body>
+		<blockquote class="layui-elem-quote layui-text">
+			公司资源都具有员工保密协议签署，不允许公司员工将公司资源对接外界或转卖
+		</blockquote>
+		<div class="demoTable">
+
+			<!--<button type="button" class="layui-btn layui-btn-normal" data-toggle='modal' href='#mymodal-link'>添加项目</button> 搜索ID：
+			<div class="layui-inline">
+				<input class="layui-input"  id="demoReload" autocomplete="off">
+			</div>-->
+			搜索项目：
+			<div class="layui-inline">
+				<input class="layui-input" id="rponame" autocomplete="off" style="width: 120px;">
+			</div>
+			<div class="layui-inline scale1 scale3">
+				公司搜索：
+				<div class="layui-inline">
+					<select id="typeLo" style="height: 38px;margin-top: 10px;width: 120px;"></select>
+				</div>
+			</div>
+			种类搜索：
+			<div class="layui-inline">
+				<select id="typephj" style="height: 38px;margin-top: 10px;width: 120px;"></select>
+			</div>
+			<button class="layui-btn" data-type="reload" id="selectbyCondition">搜索</button>
+			<button type="button" class="layui-btn layui-btn-normal scale1 scale3" data-toggle='modal' href='#mymodal-link' onclick="addCos()">添加单项</button>
+		</div>
+		<div style="display: none;top: 50px;" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="mymodal-link">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+						<h4 class="modal-title">项目信息</h4>
+					</div>
+					<div class="modal-body text-center">
+						<h6>
+			　　　类　别　：<select id="type"  style="height: 38px"></select><br>
+			　　　来　源　：<select id="rid"  style="height: 38px"></select><br>
+	                 　　项目名称　：<input type="text" name="produ" required placeholder="名称" value=""><br>
+	                 　　项目详情　：<input type="text" name="produIntroduce"  placeholder="项目详情" value=""><br>
+ 			 　　合作价格　：<input type="text" name="price"  placeholder="合作价格" value=""><br>
+
+	                 　　代理价格　：<input type="text" name="Agencyprice"  placeholder="代理价格" value=""><br>			               
+	                 　　市场价格　：<input type="text" name="Externalprice"  placeholder="市场价格" value=""><br>
+                        　
+		 　　　    备　注　：<textarea          name="remarks"  rows="7"  placeholder="备注" ></textarea><br>
+
+	                 	<input style="display: none;" type="text" name="addorupdate" value="">
+	                 	<input style="display: none;" type="text" name="id" value=""></h6>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button id="save" type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveCorporations()">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="layui-hide" id="test" lay-filter="test" lay-data="{id: 'idTest'}"></table>
+
+		<script type="text/javascript" src="../../js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="../../layui/layui.all.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap.js"></script>
+		<script type="text/javascript" src="../../js/public.js"></script>
+		<script type="text/javascript" src="resourcedetails.js"></script>
+		<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+		<script type="text/html" id="barDemo">
+			{{# if(window.sessionStorage["scale"] == "3"){ }}
+			<span>无操作</span> {{# }if(window.sessionStorage["scale"] == "4"||window.sessionStorage["scale"] == "1") { }}
+			<a class="layui-btn layui-btn-xs" lay-event="edit" data-toggle='modal' href='#mymodal-link'>编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			{{# } }}
+
+		</script>
+		<script>
+			if(window.sessionStorage["scale"] == "3") {
+
+			} else if(window.sessionStorage["scale"] == "4" || window.sessionStorage["scale"] == "1") {
+				$(".scale1").removeClass("scale3");
+
+			}
+		</script>
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+				/*初始化页面*/
+				var tableIns = table.render({
+					elem: '#test',
+					url: bulicUrl + "resourse/selectreDeta.php",
+					toolbar: true,
+					title: '项目介绍表',
+					totalRow: true,
+					cellMinWidth: 80,
+					cols: [
+						[{
+							field: 'Id',
+							title: 'Id',
+							fixed: 'left',
+							width: 50,
+							hide: true
+							/*unresize: true,
+							sort: true,
+							totalRowText: '合计行',
+							totalRow: true,
+							edit: 'text'
+							totalRow: true introduce,*/
+
+						}, {
+
+							title: '序号',
+							type: "numbers",
+							width: 50
+
+						}, {
+							field: 'produ',
+							title: '项目名字',
+						}, {
+							field: 'companyName',
+							title: '合作公司',
+							templet: function(d) {
+								if(window.sessionStorage["scale"] == "4" || window.sessionStorage["scale"] == "1") {
+									return '<span style="color: #c00;">' + d.companyName + '</span>';
+								} else {
+									return '<span style="color: #c00;">' + "北京博烨教育科技有限公司" + '</span>';
+								}
+
+							}
+
+						}, {
+							field: 'produIntroduce',
+							title: '项目详情',
+						}, {
+							field: 'price',
+							title: '合作价格',
+							hide: true,
+							templet: function(d) {
+								if(window.sessionStorage["scale"] == "3") {
+									return '<span style="color: #c00;">' + "0" + '</span>';
+								} else if(window.sessionStorage["scale"] == "4" || window.sessionStorage["scale"] == "1") {
+									return '<span style="color: #c00;">' + d.price + '</span>';
+								}
+
+							}
+						}, {
+							field: 'Agencyprice',
+							title: '代理价格',
+							hide: function(d) {
+								if(window.sessionStorage["scale"] == "5") {
+									return true;
+								} else if(window.sessionStorage["scale"] == "4" || window.sessionStorage["scale"] == "3" || window.sessionStorage["scale"] == "1") {
+									return false;
+								}
+							},
+							templet: function(d) {
+								if(window.sessionStorage["scale"] == "5") {
+									return '<span style="color: #c00;">' + "0" + '</span>';
+								} else if(window.sessionStorage["scale"] == "4" || window.sessionStorage["scale"] == "3" || window.sessionStorage["scale"] == "1") {
+									return '<span style="color: #c00;">' + d.Agencyprice + '</span>';
+								}
+							}
+
+						}, {
+							field: 'Externalprice',
+							title: '价格',
+						}, {
+							field: 'remarks',
+							title: '备注',
+						}, {
+							field: 'type',
+							title: '种类',
+							templet: function(d) {
+								return '<span style="color: #c00;">' + map1.get(d.type) + '</span>';
+							}
+						}, {
+							fixed: 'right',
+							title: '操作',
+							toolbar: '#barDemo',
+
+						}]
+					],
+					done: function(res, curr, count) {
+
+					},
+					page: false,
+					id: 'userTableReload',
+					response: {
+						statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+					},
+					parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+						return {
+							"code": res.code, //解析接口状态
+							"msg": res.msg, //解析提示文本
+							"count": res.total, //解析数据长度
+							"data": res.data //解析数据列表
+						};
+					},
+					height: 612
+				});
+				/*重新加载*/
+				var $ = layui.$,
+					active = {
+						reload: function() {
+							//执行重载
+							var rponame = $("#rponame").val();
+							var typeLo = $("#typeLo").val();
+							var typephj = $("#typephj").val();
+							table.reload("userTableReload", {
+								where: {
+									rponame: rponame,
+									typeLo: typeLo,
+									typephj: typephj
+								}
+							}, 'data');
+						}
+					};
+				$('.demoTable .layui-btn').on('click', function() {
+					var type = $(this).data('type');
+					active[type] ? active[type].call(this) : '';
+				});
+
+				//监听行工具事件
+				table.on('tool(test)', function(obj) {
+					var data = obj.data;
+					console.log(data)
+					if(obj.event === 'del') {
+						layer.confirm('真的删除行么', function(index) {
+							/*obj.del();*/
+							deleteTbel(data.Id);
+							layer.close(index);
+						});
+						/*编辑*/
+					} else if(obj.event === 'edit') {
+						setDatal(data);
+						setVal("addorupdate", 1); //0添加/1修改id
+						setVal("id", data.Id); //0添加/1修改id
+					}
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>
