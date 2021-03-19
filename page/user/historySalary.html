@@ -5,10 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>历史薪资</title>
-    <link rel="stylesheet" href="../../css/bootstrap.css" />
-        <link rel="stylesheet" href="../../layui/css/layui.css" />
+
+
+    <!-- <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
+    <script src="/jquery.js"></script>
+    <script src="/build/jquery.datetimepicker.full.min.js"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="../../datetimepicker/jquery.datetimepicker.css" />
     <script type="text/javascript" src="../../js/jquery-2.1.1.js"></script>
-	<script type="text/javascript" src="../../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../../datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../layui/css/layui.css" />
+
+    <script type="text/javascript" src="../../layui/layui.all.js"></script>
     <script type="text/javascript" src="../../js/public.js"></script>
     <script type="text/javascript" src="../../js/historySalary.js"></script>
     <style>
@@ -17,25 +27,41 @@
             text-align: center;
             vertical-align: middle!important;
         }
-        .nki{
-        	width: 80px;
-        	margin-top: 10px;
+        
+        .nki {
+            width: 80px;
+            margin-top: 10px;
         }
-        .textSara{
-        	width: 150px;
-        	height: 30px;
-        	margin-top: 10px;
+        
+        .textSara {
+            width: 150px;
+            height: 30px;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
-  
-       <blockquote class="layui-elem-quote layui-text">
-	  		历史薪资
-	   </blockquote>
+    <blockquote class="layui-elem-quote layui-text">
+        历史薪资
+    </blockquote>
+    <input id="datetimepicker" type="text">&nbsp;
+    <button onclick="search();" class="btn btn-primary ">搜索</button>
+
     <table id="historySalaryList" class="table table-bordered table-striped text-centerk text-center table table-hover table-condensed "></table>
 
 </body>
+<script>
+    $('#datetimepicker').datetimepicker({
+        format: 'Y年m月',
+        validateOnBlur: false
+    });
+    $.datetimepicker.setLocale('zh');
+
+    function search() {
+        //
+        selecHistory($('#datetimepicker').val());
+    }
+</script>
 
 </html>

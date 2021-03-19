@@ -10,23 +10,25 @@
 	// 设置编码，防止中文乱码
 	@mysqli_set_charset($conn, "utf8");
 
-    // $searchText = $_REQUEST['searchText'];
+     $time = $_POST['time'];
     //  $id = $_REQUEST['id'];
     //  $scale = $_REQUEST['scale'];
 
     // $searchCardid = $_REQUEST['searchCardid'];
     // $searchSchool = $_REQUEST['searchSchool'];
     // $condition = $_REQUEST['condition'];
-    // if($scale==1){
+     if($time!=null){
     	//  $sql = "select * from teachers where id !=0 and tname like '%{$searchText}%'  order by id desc";
-    // }
-    // else{
-    	 $sql = "select * from history";
-    // }
-   
+		$sql = "select * from history where time like '%{$time}%' order by id desc";
+     }
+     else{
+		$sql = "select * from history order by id desc";
+     }
+
     $result = mysqli_query($conn,$sql);
 	while($row=mysqli_fetch_assoc($result)){
     	$arr[]=$row;
     }
     echo json_encode($arr);
+
 ?>
