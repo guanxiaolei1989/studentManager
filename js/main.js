@@ -51,8 +51,8 @@ function isBao(event) {
 }
 //修改
 function updated(event) {
-    if (window.sessionStorage["scale"] == 1) {
-        $('#tname').attr("disabled", false);
+    if (window.sessionStorage["scale"] == 1 || window.sessionStorage["scale"] == 4) {
+        $('#tname').removeAttr("disabled");
     }
 
     setVal("addorupdate", 1); //0添加/1修改

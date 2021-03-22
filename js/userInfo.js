@@ -35,8 +35,8 @@ function updated(event) {
             setVal("id", idd);
             setVal("salary", dta.salary);
             $("#scale").val(dta.scale);
-            if (window.sessionStorage["scale"] != 1) {
-                $("#scale").attr("disabled", "disabled");
+            if (window.sessionStorage["scale"] == 1 || window.sessionStorage["scale"] == 4) {
+                $("#scale").removeAttr("disabled");
             }
 
         }
