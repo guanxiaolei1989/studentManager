@@ -15,9 +15,10 @@
 	$educationType = $_POST["educationType"];
 	$remarks = $_POST["remarks"];
 	$oweafee = $_POST["oweafee"];
+	$chengben = $_POST["chengben"];
 	$db = new mysql();
 
-	$sql = "update students set tid = '{$tid}',name='{$name}',phone='{$phone}',cardid='{$cardid}',mail='{$mail}',sosperson='{$sosperson}',sosphone='{$sosphone}',school='{$school}',major='{$major}',money='{$money}',educationType='{$educationType}',remarks='{$remarks}',oweafee='{$oweafee}'  where id = '{$id}'";
+	$sql = "update students set tid = '{$tid}',name='{$name}',phone='{$phone}',cardid='{$cardid}',mail='{$mail}',sosperson='{$sosperson}',sosphone='{$sosphone}',school='{$school}',major='{$major}',money='{$money}',educationType='{$educationType}',chengben='{$chengben}',remarks='{$remarks}',oweafee='{$oweafee}'  where id = '{$id}'";
 
 	echo $db->Query($sql);
 

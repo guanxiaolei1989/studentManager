@@ -19,6 +19,7 @@
 	$educationType = $_POST["educationType"];
 	$remarks = $_POST["remarks"];
 	$oweafee = $_POST["oweafee"];
+	$chengben = $_POST["chengben"];
 
 /*tid: 2
 educationType: 成人教育
@@ -38,7 +39,7 @@ creattime: 2020年9月21日 9:55:37*/
 	// $sql = "select id from teachers where username = '{$teacherName}'";//通过当前登录用户名查找id
 	// $tId = $db->StrQuery($sql,1)[0];
 	//echo $tId;
-	$sql = "INSERT INTO students (tid,name,phone,cardid,mail,sosperson,sosphone,school,major,money,ispay,creattime,educationType,remarks,oweafee) VALUES ('{$tid}','{$name}','{$phone}','{$cardid}','{$mail}','{$sosperson}','{$sosphone}','{$school}','{$major}','{$money}','{$ispay}','{$creattime}','{$educationType}','{$remarks}','{$oweafee}')";
+	$sql = "INSERT INTO students (tid,name,phone,cardid,mail,sosperson,sosphone,school,major,money,ispay,creattime,educationType,chengben,remarks,oweafee) VALUES ('{$tid}','{$name}','{$phone}','{$cardid}','{$mail}','{$sosperson}','{$sosphone}','{$school}','{$major}','{$money}','{$ispay}','{$creattime}','{$educationType}','{$chengben}','{$remarks}','{$oweafee}')";
 
 	echo $db->Query($sql);
 

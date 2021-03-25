@@ -54,6 +54,10 @@ function updated(event) {
     if (window.sessionStorage["scale"] == 1 || window.sessionStorage["scale"] == 4) {
         $('#tname').removeAttr("disabled");
     }
+    if (window.sessionStorage["scale"] == 1) {
+        $("#chengben").attr("style", "display:block");
+        //$('#chengben').removeAttr("display");
+    }
 
     setVal("addorupdate", 1); //0添加/1修改
     var idd = $(event).attr("id");
@@ -65,57 +69,64 @@ function updated(event) {
         success: function(data) {
             dta = JSON.parse(data);
             $("#tname option:selected").remove();
+            var count = 0;
             dta.forEach(function(value, index) {
                 $("<option value=" + value.id + ">" + value.tname + "</option>").appendTo("#tname");
+                count++;
+                if (count == dta.length) { //所有名字追加到下拉框中后执行
+                    $.ajax({
+                        url: bulicUrl + "selectOneClassify.php",
+                        data: {
+                            id: idd,
+                            classify: "students"
+                        },
+                        type: "POST",
+                        dataType: "text",
+                        success: function(data) {
+                            dta = JSON.parse(data)[0];
+                            setVal("id", dta.id);
+                            setVal("name", dta.name);
+                            setVal("phone", dta.phone);
+                            setVal("cardid", dta.cardid);
+                            setVal("mail", dta.mail);
+                            setVal("sosperson", dta.sosperson);
+                            setVal("sosphone", dta.sosphone);
+                            setVal("school", dta.school);
+                            setVal("major", dta.major);
+                            setVal("remarks", dta.remarks);
+                            setVal("money", dta.money);
+                            setVal("oweafee", dta.oweafee);
+                            setVal("chengben", dta.chengben);
+                            $("#educationType").val(dta.educationType);
+                            // setVal("tname", dta.tname);
+                            // setVal("tname", 123);
+                            $("#tname option:selected").text(dta.tname);
+                            $("#tname option:selected").val(dta.tid);
+                            if (dta.ispay == 1) {
+                                if (window.sessionStorage["scale"] == 1) {
+
+                                } else {
+                                    $("input[name='money']").attr("disabled", "disabled");
+                                }
+
+                            } else {
+                                $("input[name='money']").removeAttr("disabled");
+                            }
+                        }
+                    })
+                }
             })
         }
     })
-    $.ajax({
-        url: bulicUrl + "selectOneClassify.php",
-        data: {
-            id: idd,
-            classify: "students"
-        },
-        type: "POST",
-        dataType: "text",
-        success: function(data) {
-            dta = JSON.parse(data)[0];
-            setVal("id", dta.id);
-            setVal("name", dta.name);
-            setVal("phone", dta.phone);
-            setVal("cardid", dta.cardid);
-            setVal("mail", dta.mail);
-            setVal("sosperson", dta.sosperson);
-            setVal("sosphone", dta.sosphone);
-            setVal("school", dta.school);
-            setVal("major", dta.major);
-            setVal("remarks", dta.remarks);
-            setVal("money", dta.money);
-            setVal("oweafee", dta.oweafee);
-            $("#educationType").val(dta.educationType);
 
-            // setVal("tname", dta.tname);
-            // setVal("tname", 123);
-            $("#tname option:selected").text(dta.tname);
-            $("#tname option:selected").val(dta.tid);
-
-            if (dta.ispay == 1) {
-                if (window.sessionStorage["scale"] == 1) {
-
-                } else {
-                    $("input[name='money']").attr("disabled", "disabled");
-                }
-
-            } else {
-                $("input[name='money']").removeAttr("disabled");
-            }
-        }
-    })
 
 }
 
 //添加
 function addstudentInfo() {
+    if (window.sessionStorage["scale"] == 1) {
+        $("#chengben").attr("style", "display:block");
+    }
     $('#tname').attr("disabled", true);
     //清空内容
     setVal("addorupdate", "0");
@@ -130,6 +141,7 @@ function addstudentInfo() {
     setVal("money", "0");
     setVal("remarks", "");
     setVal("oweafee", "0");
+    setVal("chengben", "0");
     $("#educationType").val("0");
     $("input[name='money']").removeAttr("disabled");
     $("#tname option:selected").text(window.sessionStorage["userName"]);
@@ -157,6 +169,7 @@ $("#save").click(function(event) {
         remarks: $("input[name='remarks']").val(),
         money: $("input[name='money']").val(),
         oweafee: $("input[name='oweafee']").val(),
+        chengben: $("input[name='chengben']").val(),
     };
     if ($("input[name='addorupdate']").val() == 0) { //添加
         people.ispay = 0;
